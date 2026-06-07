@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#f7f8fa" />
+    <title>Clarity · Local Image Upscaler</title>
+    <link rel="stylesheet" href="/src/styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="titlebar">
+        <div class="traffic-lights" aria-hidden="true"><i></i><i></i><i></i></div>
+        <strong class="brand">Clarity</strong>
+        <span class="local-status"><b></b> Runs locally</span>
+        <span class="spacer"></span>
+        <span class="chip" id="engineChip">Checking engine…</span>
+        <button class="text-button" id="aboutButton">About</button>
+      </header>
+
+      <main class="workspace">
+        <section class="main-column">
+          <div class="preview" id="dropZone">
+            <div class="empty-state" id="emptyState">
+              <span class="empty-kicker">LOCAL IMAGE UPSCALER</span>
+              <h1>Drop an image to begin</h1>
+              <p>JPG, PNG, or WebP. Your image never leaves this Mac.</p>
+              <button class="secondary-button" id="chooseButton">Choose image</button>
+            </div>
+            <div class="compare hidden" id="compare">
+              <img id="beforeImage" alt="Original image" />
+              <div class="after-layer" id="afterLayer"><img id="afterImage" alt="Upscaled image preview" /></div>
+              <input id="compareRange" class="compare-range" type="range" min="0" max="100" value="50" aria-label="Before and after comparison" />
+              <span class="image-label before-label">Before</span>
+              <span class="image-label after-label">After</span>
+              <span class="image-meta" id="imageMeta"></span>
+            </div>
+            <input id="fileInput" type="file" accept="image/jpeg,image/png,image/webp" multiple hidden />
+          </div>
+
+          <section class="queue-panel">
+            <div class="queue-heading">
+              <strong>Queue <span id="queueCount">(0)</span></strong>
+              <button class="text-button" id="addButton">Add images</button>
+              <button class="text-button muted" id="clearButton">Clear completed</button>
+            </div>
+            <div class="queue-list" id="queueList">
+              <p class="queue-empty">Images you add will appear here.</p>
+            </div>
+          </section>
+          <p class="drop-hint">Drag & drop images anywhere to add them</p>
+        </section>
+
+        <aside class="inspector">
+          <div class="control-group">
+            <label>Scale</label>
+            <div class="segmented" id="scaleControl">
+              <button data-scale="2">2×</button>
+              <button class="active" data-scale="4">4×</button>
+            </div>
+          </div>
+          <div class="control-group">
+            <label>Output format</label>
+            <div class="segmented three" id="formatControl">
+              <button class="active" data-format="jpg">JPG</button>
+              <button data-format="png">PNG</button>
+              <button data-format="webp">WebP</button>
+            </div>
+          </div>
+          <div class="control-group">
+            <label>Output dimensions</label>
+            <output class="field" id="dimensions">Choose an image</output>
+            <small id="originalDimensions">Original dimensions will appear here.</small>
+          </div>
+          <div class="control-group">
+            <label>Estimated file size</label>
+            <strong class="estimate" id="estimate">—</strong>
+            <small id="qualityLabel">JPG · Quality 92%</small>
+          </div>
+          <hr />
+          <div class="control-group engine-details">
+            <label>Processing</label>
+            <strong id="engineName">Detecting local engine…</strong>
+            <small id="engineDescription">No image data is sent over the network.</small>
+          </div>
+          <span class="spacer"></span>
+          <button class="primary-button" id="upscaleButton" disabled>Upscale image</button>
+          <p class="privacy-note">All processing runs locally.<br />Your images never leave this Mac.</p>
+        </aside>
+      </main>
+    </div>
+
+    <dialog id="aboutDialog">
+      <button class="dialog-close" id="closeAbout">Close</button>
+      <h2>Clarity</h2>
+      <p>A private, local-first image upscaler built for Apple Silicon.</p>
+      <p><strong>AI mode:</strong> automatically uses <code>realesrgan-ncnn-vulkan</code> when installed. Otherwise, Clarity uses Pillow's high-quality Lanczos resampling so the app remains fully usable.</p>
+    </dialog>
+
+    <script type="module" src="/src/app.js"></script>
+  </body>
+</html>
